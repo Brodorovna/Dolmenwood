@@ -4,22 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Интерактивная карта</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
     body {
       margin: 0;
+      padding: 0;
       background: #1a1a2e;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
-    img {
-      max-width: 100%;
-      max-height: 100vh;
+    #map {
+      width: 100vw;
+      height: 100vh;
     }
   </style>
 </head>
 <body>
-  <img src="map.webp" alt="Карта">
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Размер твоей картинки в пикселях — ЗАМЕНИ на реальные размеры
+    const IMG_WIDTH  = 2000;
+    const IMG_HEIGHT = 1500;
+
+    const bounds = [[0, 0], [IMG_HEIGHT, IMG_WIDTH]];
+
+    const map = L.map('map', {
+      crs: L.CRS.Simple,      // без географических координат — просто картинка
+      minZoom: -2,
+      maxZoom: 3,
+    });
+
+    L.imageOverlay('map.jpg', bounds).addTo(map);
+    map.fitBounds(bounds);
+  </script>
 </body>
 </html>
