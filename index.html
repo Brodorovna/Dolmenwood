@@ -328,14 +328,17 @@
               const fullyExplored = index[hexId]?.fullyExplored ?? false;
               const hasContent = !!index[hexId];
 
-              const baseColor = fullyExplored ? "#50c878" : "#4a9eff";
+              const fillColor = fullyExplored ? '#52b788' : hasContent ? '#c9a84c' : '#4a9eff';
+              const fillOpacity = (fullyExplored || hasContent) ? 0.45 : 0;
+              const strokeColor = fullyExplored ? '#2d6a4f' : hasContent ? '#a07830' : '#4a9eff';
 
               const polygon = L.polygon(hexLatLngs(cx, cy, R), {
-              color:       fullyExplored ? '#2d6a4f' : '#4a9eff',
+              color:       strokeColor,
               weight:      1,
-              fillColor:   fullyExplored ? '#52b788' : '#4a9eff',
-              fillOpacity: fullyExplored ? 0.55 : 0,
+              fillColor:   fillColor,
+              fillOpacity: fillOpacity,
               })
+
                 .on("mouseover", function () {
                   if (activeHex !== this) this.setStyle({ fillOpacity: 0.15 });
                 })
