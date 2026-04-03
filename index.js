@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Интерактивная карта</title>
 <script src="dist/oi.hexmap.js"></script>
   <style>/* Define the size of the hexmap area */
@@ -24,48 +19,4 @@ hex = new OI.hexmap(document.getElementById('hexmap1'),{
 	}
 });
 <div id="hexmap1"></div>
-</body>
-</html>
 
-/**<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Интерактивная карта</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #1a1a2e;
-    }
-    #map {
-      width: 100vw;
-      height: 100vh;
-    }
-  </style>
-</head>
-<body>
-  <div id="map"></div>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    // Размер твоей картинки в пикселях — ЗАМЕНИ на реальные размеры
-    const IMG_WIDTH  = 5080;
-    const IMG_HEIGHT = 3627;
-
-    const bounds = [[0, 0], [IMG_HEIGHT, IMG_WIDTH]];
-
-    const map = L.map('map', {
-      crs: L.CRS.Simple,      // без географических координат — просто картинка
-      minZoom: -2,
-      maxZoom: 3,
-    });
-
-    L.imageOverlay('map.webp', bounds).addTo(map);
-    map.fitBounds(bounds);
-  </script>
-</body>
-</html>
-**/
