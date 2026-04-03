@@ -3,27 +3,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Интерактивная карта</title>
   <style>/* Define the size of the hexmap area */
-#hexmap2 { height : 500px ; width : 100% ; animation-duration : 0.3s ; }
- #hexmap2  .hex  path { stroke : white; stroke-width : 2 ; transition : fill 0.3s ease-in, stroke 0.3s ease-in, stroke-width 0.3s ease-in; }
- /* Увеличить размер шестиугольника при наведении курсора */ 
-#hexmap2  .hover  path { stroke-width : 4px ; transform : scale (1.75); stroke : black; }
- #hexmap2  .hex-label { font-size : 1rem ; line-height : 1.1em ;}
- /* Установить стили включения и выключения для текстовых меток */ 
-#hexmap2  .hex-label  tspan .on { display : none; }
- #hexmap2  .hex-label  tspan .off { display : block; }
- #hexmap2  .hex-label  tspan .big { font-weight : bold; font-size : 1.2em ; }
- #hexmap2  .hover  .hex-label  tspan .on { display : block; }
- #hexmap2  .hover  .hex-label  tspan .off { display : none; }
+#hexmap2 { height: 500px; width: 100%; animation-duration: 0.3s; }
+#hexmap2 .hex path { stroke: white; stroke-width: 2; transition: fill 0.3s ease-in, stroke 0.3s ease-in, stroke-width 0.3s ease-in; }
+/* Make the hexagon larger when hovered */
+#hexmap2 .hover path { stroke-width: 4px; transform: scale(1.75); stroke: black; }
+#hexmap2 .hex-label { font-size: 1rem; line-height:1.1em;}
+/* Set the on and off styles for the text labels */
+#hexmap2 .hex-label tspan.on { display: none; }
+#hexmap2 .hex-label tspan.off { display: block; }
+#hexmap2 .hex-label tspan.big { font-weight: bold; font-size: 1.2em; }
+#hexmap2 .hover .hex-label tspan.on { display: block; }
+#hexmap2 .hover .hex-label tspan.off { display: none; }
     </style>
 	
 </head>
 <body>
 
-<figure> 
-	<div id="hexmap2" > </div> 
-		<figcaption>
-	 		Картограмма , показывающая районы Лидса с цветами , присвоенными вручную . 
-		</figcaption>
+<figure>
+	<div id="hexmap2"></div>
+	<figcaption>Cartogram showing Leeds wards with colours assigned manually.</figcaption>
 </figure>
 	
 <script src="dist/oi.hexmap.js"></script>
