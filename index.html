@@ -331,10 +331,10 @@
               const baseColor = fullyExplored ? "#50c878" : "#4a9eff";
 
               const polygon = L.polygon(hexLatLngs(cx, cy, R), {
-                color: baseColor,
-                weight: 1,
-                fillColor: baseColor,
-                fillOpacity: 0,
+              color:       fullyExplored ? '#2d6a4f' : '#4a9eff',
+              weight:      1,
+              fillColor:   fullyExplored ? '#52b788' : '#4a9eff',
+              fillOpacity: fullyExplored ? 0.55 : 0,
               })
                 .on("mouseover", function () {
                   if (activeHex !== this) this.setStyle({ fillOpacity: 0.15 });
