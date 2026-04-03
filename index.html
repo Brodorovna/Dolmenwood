@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<script src="dist/oi.hexmap.js"></script>
-<style>
-  /* Define the size of the hexmap area */
-#hexmap1 { height: 300px; width: 100%; }
-  </style>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Интерактивная карта</title>
-<sript>
+<style>
+  /* Define the size of the hexmap area */
+#hexmap1 { height: 300px; width: 100%; }
+  </style>
+	
+<div id="hexmap1"></div>
+
+	<script src="dist/oi.hexmap.js"></script>
+	<sript>
+// Attach our hexmap to <div id="hexmap1"></div>
 hex = new OI.hexmap(document.getElementById('hexmap1'),{
 	// Define the HexJSON - https://open-innovations.org/projects/hexmaps/hexjson
 	'hexjson':{
@@ -25,9 +29,7 @@ hex = new OI.hexmap(document.getElementById('hexmap1'),{
 	}
 });
 </sript>
-
-<div id="hexmap1"></div>
-
+	
 	</body>
 </html>
 <!--
