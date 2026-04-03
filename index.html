@@ -4,16 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dolmenwood</title>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
       body {
         display: flex;
         height: 100vh;
@@ -21,10 +14,9 @@
         font-family: Georgia, serif;
       }
 
-      #map {
-        flex: 1;
-        height: 100vh;
-      }
+      #map { flex: 1; height: 100vh; }
+
+      .leaflet-overlay-pane svg { mix-blend-mode: multiply; }
 
       #sidebar {
         width: 35%;
@@ -36,10 +28,7 @@
         transition: width 0.3s ease;
         overflow: hidden;
       }
-      #sidebar.hidden {
-        width: 0;
-        border: none;
-      }
+      #sidebar.hidden { width: 0; border: none; }
 
       #sidebar-header {
         padding: 14px 16px;
@@ -50,22 +39,12 @@
         align-items: center;
         flex-shrink: 0;
       }
-      #sidebar-title {
-        font-size: 15px;
-        font-weight: bold;
-      }
+      #sidebar-title { font-size: 15px; font-weight: bold; }
       #sidebar-close {
-        background: none;
-        border: none;
-        color: #f5f0e8;
-        font-size: 18px;
-        cursor: pointer;
-        opacity: 0.7;
-        line-height: 1;
+        background: none; border: none; color: #f5f0e8;
+        font-size: 18px; cursor: pointer; opacity: 0.7; line-height: 1;
       }
-      #sidebar-close:hover {
-        opacity: 1;
-      }
+      #sidebar-close:hover { opacity: 1; }
 
       #sidebar-body {
         flex: 1;
@@ -75,62 +54,20 @@
         font-size: 14px;
         line-height: 1.75;
       }
-      #sidebar-body h3 {
-        font-size: 16px;
-        margin: 18px 0 8px;
-        color: #3a2e1e;
-      }
-      #sidebar-body h4 {
-        font-size: 14px;
-        margin: 14px 0 6px;
-        color: #5a3e1e;
-      }
-      #sidebar-body p {
-        margin: 0 0 10px;
-      }
-      #sidebar-body img {
-        max-width: 100%;
-        border-radius: 4px;
-        margin: 8px 0;
-        display: block;
-      }
-      #sidebar-body table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 10px 0;
-        font-size: 13px;
-      }
-      #sidebar-body td,
-      #sidebar-body th {
-        border: 1px solid #c8b89a;
-        padding: 4px 8px;
-      }
-      #sidebar-body hr {
-        border: none;
-        border-top: 1px solid #c8b89a;
-        margin: 14px 0;
-      }
+      #sidebar-body h3 { font-size: 16px; margin: 18px 0 8px; color: #3a2e1e; }
+      #sidebar-body h4 { font-size: 14px; margin: 14px 0 6px; color: #5a3e1e; }
+      #sidebar-body p  { margin: 0 0 10px; }
+      #sidebar-body img { max-width: 100%; border-radius: 4px; margin: 8px 0; display: block; }
+      #sidebar-body table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+      #sidebar-body td, #sidebar-body th { border: 1px solid #c8b89a; padding: 4px 8px; }
+      #sidebar-body hr { border: none; border-top: 1px solid #c8b89a; margin: 14px 0; }
 
-      #sidebar-placeholder {
-        color: #9a8a6a;
-        font-style: italic;
-        text-align: center;
-        margin-top: 40px;
-        font-size: 13px;
-      }
-
-      #loading {
-        display: none;
-        text-align: center;
-        padding: 20px;
-        color: #9a8a6a;
-        font-style: italic;
-      }
+      #sidebar-placeholder { color: #9a8a6a; font-style: italic; text-align: center; margin-top: 40px; font-size: 13px; }
+      #loading { display: none; text-align: center; padding: 20px; color: #9a8a6a; font-style: italic; }
 
       #toggle-btn {
         position: absolute;
-        top: 12px;
-        right: 12px;
+        top: 12px; right: 12px;
         z-index: 1000;
         background: #3a2e1e;
         color: #f5f0e8;
@@ -141,13 +78,9 @@
         font-size: 13px;
         display: none;
       }
-      #toggle-btn:hover {
-        background: #5a4e3e;
-      }
+      #toggle-btn:hover { background: #5a4e3e; }
 
-      .leaflet-container {
-        background: #1a1a2e;
-      }
+      .leaflet-container { background: #1a1a2e; }
     </style>
   </head>
   <body>
@@ -169,197 +102,205 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
       // === ПАРАМЕТРЫ СЕТКИ ===
-      const IMG_W = 5080;
-      const IMG_H = 3627;
-      const R = 155;
+      const IMG_W       = 5080;
+      const IMG_H       = 3627;
+      const R           = 155;
       const MARGIN_LEFT = -172;
-      const MARGIN_TOP = -263;
-      const START_COL = 1;
-      const COLS = 21;
-      const GDOC_URL =
-        "https://docs.google.com/document/d/e/2PACX-1vSO6_U4VUaWlVo8yUXt9-7kZWp2qMB4YS2fpM5ui4fWcrL5WCbWxqOvWRggkun2xiNy03m78VaEUrAE/pub";
+      const MARGIN_TOP  = -263;
+      const START_COL   = 1;
+      const COLS        = 21;
+      const GDOC_URL    = 'https://docs.google.com/document/d/e/2PACX-1vSO6_U4VUaWlVo8yUXt9-7kZWp2qMB4YS2fpM5ui4fWcrL5WCbWxqOvWRggkun2xiNy03m78VaEUrAE/pub';
       // =======================
 
       const stepX = 1.5 * R;
       const stepY = Math.sqrt(3) * R;
-      const ROWS = Math.ceil((IMG_H - 2 * Math.abs(MARGIN_TOP)) / stepY) + 2;
-      const bounds = [
-        [0, 0],
-        [IMG_H, IMG_W],
-      ];
+      const ROWS  = Math.ceil((IMG_H - 2 * Math.abs(MARGIN_TOP)) / stepY) + 2;
+      const bounds = [[0, 0], [IMG_H, IMG_W]];
 
-      const map = L.map("map", {
+      const map = L.map('map', {
         crs: L.CRS.Simple,
         minZoom: -3,
         maxZoom: 3,
       });
 
-      L.imageOverlay("map.webp", bounds).addTo(map);
+      L.imageOverlay('map.webp', bounds).addTo(map);
       map.fitBounds(bounds);
 
-      // Кэш документа и индекс гексов
       let docCache = null;
-      let docIndex = null; // hexId -> { fullyExplored, heading }
+      let docIndex = null;
 
       async function fetchDoc() {
         if (docCache) return docCache;
         const res = await fetch(GDOC_URL);
         const html = await res.text();
-        docCache = new DOMParser().parseFromString(html, "text/html");
+        docCache = new DOMParser().parseFromString(html, 'text/html');
         return docCache;
       }
 
-      // Парсим только h2 с паттерном "Гекс XXXX"
       async function loadDocIndex() {
         if (docIndex) return docIndex;
         const doc = await fetchDoc();
         docIndex = {};
-        doc.querySelectorAll("h2").forEach((h) => {
+        doc.querySelectorAll('h2').forEach(h => {
           const text = h.textContent.trim();
           const match = text.match(/^Гекс\s+(\d{4})/);
           if (!match) return;
           const hexId = match[1];
-          const fullyExplored = text.includes("полностью изучен");
+          const fullyExplored = text.includes('полностью изучен');
           docIndex[hexId] = { fullyExplored, heading: text };
         });
         return docIndex;
       }
 
       async function loadHexContent(hexId) {
-        const sidebar = document.getElementById("sidebar");
-        const title = document.getElementById("sidebar-title");
-        const body = document.getElementById("sidebar-body");
-        const loading = document.getElementById("loading");
+        const sidebar = document.getElementById('sidebar');
+        const title   = document.getElementById('sidebar-title');
+        const body    = document.getElementById('sidebar-body');
+        const loading = document.getElementById('loading');
 
-        sidebar.classList.remove("hidden");
-        document.getElementById("toggle-btn").style.display = "none";
+        sidebar.classList.remove('hidden');
+        document.getElementById('toggle-btn').style.display = 'none';
 
         title.textContent = `Гекс ${hexId}`;
-        body.innerHTML = "";
-        loading.style.display = "block";
+        body.innerHTML = '';
+        loading.style.display = 'block';
 
         try {
-          const doc = await fetchDoc();
+          const doc   = await fetchDoc();
           const index = await loadDocIndex();
 
           if (!index[hexId]) {
-            loading.style.display = "none";
+            loading.style.display = 'none';
             body.innerHTML = `<p id="sidebar-placeholder">Для гекса ${hexId} пока нет описания.</p>`;
             return;
           }
 
-          // Находим нужный h2 — строго по паттерну и совпадению id
-          const headings = Array.from(doc.querySelectorAll("h2"));
-          const target = headings.find((h) => {
+          const headings = Array.from(doc.querySelectorAll('h2'));
+          const target = headings.find(h => {
             const match = h.textContent.trim().match(/^Гекс\s+(\d{4})/);
             return match && match[1] === hexId;
           });
 
           if (!target) {
-            loading.style.display = "none";
+            loading.style.display = 'none';
             body.innerHTML = `<p id="sidebar-placeholder">Для гекса ${hexId} пока нет описания.</p>`;
             return;
           }
 
           title.textContent = index[hexId].heading;
 
-          // Собираем всё до следующего h2
-          const content = document.createElement("div");
+          const content = document.createElement('div');
           let node = target.nextElementSibling;
-          while (node && node.tagName !== "H2") {
+          while (node && node.tagName !== 'H2') {
             content.appendChild(node.cloneNode(true));
             node = node.nextElementSibling;
           }
 
-          loading.style.display = "none";
+          loading.style.display = 'none';
           body.appendChild(content);
+
         } catch (e) {
-          loading.style.display = "none";
+          loading.style.display = 'none';
           body.innerHTML = `<p style="color:#c0392b">Ошибка загрузки документа.</p>`;
           console.error(e);
         }
       }
 
-      // Sidebar кнопки
-      document.getElementById("sidebar-close").addEventListener("click", () => {
-        document.getElementById("sidebar").classList.add("hidden");
-        document.getElementById("toggle-btn").style.display = "block";
+      document.getElementById('sidebar-close').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('hidden');
+        document.getElementById('toggle-btn').style.display = 'block';
       });
-      document.getElementById("toggle-btn").addEventListener("click", () => {
-        document.getElementById("sidebar").classList.remove("hidden");
-        document.getElementById("toggle-btn").style.display = "none";
+      document.getElementById('toggle-btn').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('hidden');
+        document.getElementById('toggle-btn').style.display = 'none';
       });
 
       function hexLatLngs(cx, cy, r) {
         let pts = [];
         for (let i = 0; i < 6; i++) {
-          const a = (i * 60 * Math.PI) / 180;
+          const a = i * 60 * Math.PI / 180;
           pts.push([IMG_H - (cy + r * Math.sin(a)), cx + r * Math.cos(a)]);
         }
         return pts;
       }
 
-      // Загружаем hexes.json, затем документ, затем рисуем гексы
-      fetch("hexes.json")
-        .then((r) => r.json())
-        .then(async (hexes) => {
-          const hexMap = {};
-          hexes.forEach((h) => {
-            hexMap[`${h.col}_${h.row}`] = h.id;
-          });
+      // Единая функция стиля — чтобы не было рассинхрона между обработчиками
+      function hexStyle(hasContent, fullyExplored, state) {
+        // state: 'default' | 'hover' | 'active'
+        if (fullyExplored) {
+          return {
+            fillColor:   '#52b788',
+            color:       '#2d6a4f',
+            weight:      state === 'active' ? 2 : 1,
+            fillOpacity: state === 'active' ? 0.7 : state === 'hover' ? 0.65 : 0.45,
+          };
+        } else if (hasContent) {
+          return {
+            fillColor:   '#c9a84c',
+            color:       '#a07830',
+            weight:      state === 'active' ? 2 : 1,
+            fillOpacity: state === 'active' ? 0.7 : state === 'hover' ? 0.65 : 0.45,
+          };
+        } else {
+          return {
+            fillColor:   '#4a9eff',
+            color:       '#4a9eff',
+            weight:      state === 'active' ? 2 : 1,
+            fillOpacity: state === 'active' ? 0.3 : state === 'hover' ? 0.15 : 0,
+          };
+        }
+      }
 
-          // Сначала грузим индекс документа — чтобы знать цвета до первого клика
+      fetch('hexes.json')
+        .then(r => r.json())
+        .then(async hexes => {
+          const hexMap = {};
+          hexes.forEach(h => { hexMap[`${h.col}_${h.row}`] = h.id; });
+
           const index = await loadDocIndex();
 
           let activeHex = null;
 
           for (let col = START_COL; col <= START_COL + COLS - 1; col++) {
-            const cx = MARGIN_LEFT + R + col * stepX;
+            const cx     = MARGIN_LEFT + R + col * stepX;
             const shiftY = col % 2 === 0 ? stepY / 2 : 0;
 
             for (let row = 0; row < ROWS; row++) {
               const cy = MARGIN_TOP + stepY / 2 + row * stepY + shiftY;
               if (cy - R > IMG_H || cy + R < 0) continue;
 
-              const key = `${col}_${row}`;
+              const key   = `${col}_${row}`;
               const hexId = hexMap[key];
               if (!hexId) continue;
 
               const fullyExplored = index[hexId]?.fullyExplored ?? false;
-              const hasContent = !!index[hexId];
+              const hasContent    = !!index[hexId];
 
-              const fillColor = fullyExplored ? '#52b788' : hasContent ? '#c9a84c' : '#4a9eff';
-              const fillOpacity = (fullyExplored || hasContent) ? 0.45 : 0;
-              const strokeColor = fullyExplored ? '#2d6a4f' : hasContent ? '#a07830' : '#4a9eff';
-
-              const polygon = L.polygon(hexLatLngs(cx, cy, R), {
-              color:       strokeColor,
-              weight:      1,
-              fillColor:   fillColor,
-              fillOpacity: fillOpacity,
+              const polygon = L.polygon(
+                hexLatLngs(cx, cy, R),
+                hexStyle(hasContent, fullyExplored, 'default')
+              )
+              .on('mouseover', function() {
+                if (activeHex === this) return;
+                this.setStyle(hexStyle(hasContent, fullyExplored, 'hover'));
               })
+              .on('mouseout', function() {
+                if (activeHex === this) return;
+                this.setStyle(hexStyle(hasContent, fullyExplored, 'default'));
+              })
+              .on('click', function() {
+                if (activeHex && activeHex !== this) {
+                  const m = activeHex._hexMeta;
+                  activeHex.setStyle(hexStyle(m.hasContent, m.fullyExplored, 'default'));
+                }
+                activeHex = this;
+                this.setStyle(hexStyle(hasContent, fullyExplored, 'active'));
+                loadHexContent(hexId);
+              })
+              .addTo(map);
 
-                .on("mouseover", function () {
-                  if (activeHex !== this) this.setStyle({ fillOpacity: 0.15 });
-                })
-                .on("mouseout", function () {
-                  if (activeHex !== this) this.setStyle({ fillOpacity: 0 });
-                })
-                .on("click", function () {
-                  if (activeHex) {
-                    const prevId = activeHex.hexId;
-                    const prevColor = index[prevId]?.fullyExplored
-                      ? "#50c878"
-                      : "#4a9eff";
-                    activeHex.setStyle({ fillOpacity: 0, color: prevColor });
-                  }
-                  activeHex = this;
-                  this.setStyle({ fillOpacity: 0.3, color: baseColor });
-                  loadHexContent(hexId);
-                })
-                .addTo(map);
-
-              polygon.hexId = hexId;
+              // Сохраняем мета прямо на полигоне
+              polygon._hexMeta = { hasContent, fullyExplored };
             }
           }
         });
