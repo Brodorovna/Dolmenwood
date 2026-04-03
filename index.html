@@ -23,8 +23,8 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     // Размер твоей картинки в пикселях — ЗАМЕНИ на реальные размеры
-    const IMG_WIDTH  = 2000;
-    const IMG_HEIGHT = 1500;
+    const IMG_WIDTH  = 5080;
+    const IMG_HEIGHT = 3627;
 
     const bounds = [[0, 0], [IMG_HEIGHT, IMG_WIDTH]];
 
@@ -34,7 +34,7 @@
       maxZoom: 3,
     });
 
-    L.imageOverlay('map.jpg', bounds).addTo(map);
+    L.imageOverlay('map.webp', bounds).addTo(map);
     map.fitBounds(bounds);
   </script>
 </body>
